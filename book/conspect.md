@@ -223,12 +223,15 @@ const MAX_USERS = 100;
 ---
 
 ## Single Source of Truth
+
 Every important piece of knowledge should have one authoritative source.
 Other parts of the system should depend on this source or be generated automatically.
 Benefits:
 fewer inconsistencies;
 easier maintenance;
 safer changes.
+
+---
 
 Duplication Is Sometimes Inevitable
 The goal of DRY is not to remove every repeated line of code.
@@ -302,7 +305,6 @@ Example:
 
 Good:
 
-```text
 UserService
  ├── createUser()
  ├── updateUser()
