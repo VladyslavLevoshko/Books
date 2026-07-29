@@ -232,17 +232,82 @@ safer changes.
 
 ---
 
-Duplication Is Sometimes Inevitable
+## Duplication Is Sometimes Inevitable
 The goal of DRY is not to remove every repeated line of code.
 The real goal is to avoid duplicated knowledge.
 Two similar pieces of code can represent different concepts and may evolve independently.
 Removing such duplication can create unnecessary coupling and complex abstractions.
 
-Key Takeaways
+---
+
+## Accept the Risks
+When duplication is intentional:
+accept the risks;
+document the reason;
+make other developers aware of it.
+Intentional duplication is often better than unnecessary complexity.
+
+---
+
+## Inadvertent Duplication
+Sometimes developers create abstractions because they expect future changes.
+
+Example:
+function getValue() {
+    return value;
+}
+
+The argument is:
+"Maybe later we will need additional logic here."
+However, adding abstractions without a real requirement can make the system harder to understand and maintain.
+
+---
+
+## Key Takeaways
 Avoid duplicated knowledge.
 Do not create abstractions before they are needed.
 Prefer simple solutions over unnecessary flexibility.
 Intentional duplication is acceptable when the risks are understood and documented
+
+---
+
+## YAGNI (You Aren't Gonna Need It)
+YAGNI is a principle that says:
+Do not add functionality until it is actually needed.
+Avoid creating solutions for problems that do not exist yet.
+Premature abstractions often lead to:
+unnecessary complexity;
+harder maintenance;
+more difficult design decisions.
+A simple solution today is usually better than a flexible solution that may never be needed.
+
+---
+
+## DRY vs YAGNI
+These principles can sometimes conflict.
+DRY says:
+Avoid repeating knowledge.
+YAGNI says:
+Do not create abstractions before they are necessary.
+The balance:
+remove meaningful duplication;
+avoid unnecessary abstractions;
+let real requirements guide design decisions. 
+
+---
+
+## Shared Knowledge
+Developers should communicate openly without fear of appearing inexperienced.
+Asking questions is part of professional growth.
+A team should create a shared knowledge base containing:
+solutions to common problems;
+architectural decisions;
+technical explanations;
+lessons learned.
+Reading other people's code is one of the best ways to improve.
+Understanding different approaches helps develop better engineering judgment.
+
+---
 
 # Orthogonality and Modularity
 
@@ -326,14 +391,18 @@ Low coupling makes it easier to:
 replace components;
 test modules independently;
 modify implementation details.
-Orthogonality and Teams
+
+---
+## Orthogonality and Teams
 Orthogonal architecture also improves teamwork.
 When responsibilities are clearly separated, teams can work on different parts of the system with fewer conflicts.
 Organizing teams around independent system components provides similar benefits to encapsulation in code:
 changes are limited to one area;
 ownership is clearer;
 responsibilities are easier to manage.
-Orthogonality and Testing
+
+---
+## Orthogonality and Testing
 Orthogonal systems are easier to test because components have limited interactions.
 A module should be testable independently.
 If testing one component requires connecting a large part of the system, it may indicate:
@@ -342,20 +411,29 @@ excessive coupling;
 weak architecture.
 The same principle applies to debugging:
 The fewer components affected by a change, the easier it is to find and fix problems.
-Orthogonality Beyond Code
+
+---
+
+## Orthogonality Beyond Code
 Orthogonality should also apply to documentation and processes.
 For example:
 changing documentation style should not require changing its content;
 changing deployment details should not require rewriting business logic.
 Independent parts should remain independent.
-Avoid Global State
+
+---
+
+## Avoid Global State
 Global objects often create hidden dependencies.
 They make it harder to understand:
 who changes the data;
 when the data changes;
 which parts of the system depend on it.
 Prefer explicit dependencies and controlled communication.
-Aspect-Oriented Programming (AOP)
+
+---
+
+## Aspect-Oriented Programming (AOP)
 Aspect-Oriented Programming is a technique for separating cross-cutting concerns from the main business logic.
 Cross-cutting concerns are behaviors that appear in many parts of a system:
 logging;
@@ -382,7 +460,9 @@ Cross-cutting Concerns
 
 The main code remains focused on its responsibility.
 
-Communication Between Modules
+---
+
+## Communication Between Modules
 Avoid unnecessary direct dependencies between modules.
 Instead of modules calling each other directly, they can communicate through:
 events;
@@ -400,7 +480,10 @@ OrderService
       ↓
 EmailService
 This allows components to evolve independently.
-Object Encapsulation
+
+---
+
+## Object Encapsulation
 When an object needs to change its state, ask the object to perform the operation itself.
 Prefer:
 account.withdraw(amount);
@@ -411,7 +494,10 @@ Benefits:
 less dependency on implementation details;
 easier future changes;
 better encapsulation.
-Key Takeaways
+
+---
+
+## Key Takeaways
 Keep components independent.
 Prefer high cohesion and low coupling.
 Local changes should remain local.
@@ -472,14 +558,20 @@ Application Logic
        ↓
 Database
 The tracer implementation proves that all parts can communicate correctly.
-Benefits of Tracer Code
+
+---
+
+## Benefits of Tracer Code
 Tracer code helps:
 validate architecture early;
 discover integration problems sooner;
 avoid large integration phases;
 provide a foundation for future development.
 A small working system is easier to improve than a large unfinished system.
-Incremental Development
+
+---
+
+## Incremental Development
 New functionality can be added gradually:
 Create a minimal working path.
 Add one feature.
@@ -488,7 +580,10 @@ Improve the design.
 Repeat.
 Small changes are easier to test and problems are easier to locate.
 Avoid the "big bang" approach where everything is integrated at the end.
-Keep Business Rules Separate from Implementation Details
+
+---
+
+## Keep Business Rules Separate from Implementation Details
 Code should express business concepts, not technical details.
 The system should speak the language of the problem domain.
 Bad:
@@ -496,7 +591,10 @@ database.updateUserRecord(id, data);
 Better:
 customer.changeAddress(newAddress);
 The second example describes a business action instead of a technical operation.
-Domain-Specific Languages (DSL)
+
+---
+
+## Domain-Specific Languages (DSL)
 A Domain-Specific Language (DSL) is a language designed for a specific problem domain.
 Unlike general-purpose languages:
 TypeScript;
@@ -508,7 +606,10 @@ SQL for databases;
 regular expressions for text patterns;
 configuration languages.
 A good DSL allows developers and domain experts to communicate using the same concepts.
-Put Abstractions in Code, Details in Metadata
+
+---
+
+## Put Abstractions in Code, Details in Metadata
 Do not hard-code information that is likely to change.
 Changing data should be stored separately from the program logic.
 Bad:
@@ -525,11 +626,17 @@ Benefits:
 easier changes;
 less code modification;
 better flexibility.
-Cooperative Configuration
+
+---
+
+## Cooperative Configuration
 Cooperative Configuration is an approach where system components can configure themselves and adapt to changing conditions.
 Instead of hard-coding every possible behavior, components use external configuration and metadata.
 This allows systems to evolve without modifying core logic.
-Avoid Fragile Object Design
+
+---
+
+## Avoid Fragile Object Design
 Objects should be designed as if they can be called at any moment and in any order.
 A fragile design requires a strict sequence:
 create()
@@ -542,9 +649,15 @@ show()
    ↓
 use()
 If an object only works after a specific sequence of calls, it is difficult to understand and maintain.
-Constructors Should Create Valid Objects
+
+---
+
+## Constructors Should Create Valid Objects
 A constructor should create a complete and usable object.
-Avoid separating creation and initialization.
+
+---
+
+## Avoid separating creation and initialization.
 Bad:
 const user = new User();
 user.initialize();
@@ -552,7 +665,10 @@ The object exists in an incomplete state.
 Better:
 const user = new User(name, email);
 The object should not allow invalid states.
-Maintain Invariants
+
+---
+
+## Maintain Invariants
 An invariant is a condition that should always remain true.
 After every public method call, the object should still satisfy its invariants.
 Example:
@@ -560,7 +676,10 @@ A bank account:
 Balance cannot be negative
 Every operation must preserve this rule.
 Good objects protect their own correctness.
-Always Design for Concurrency
+
+---
+
+## Always Design for Concurrency
 Concurrency is not only a source of complexity.
 It is also a test of architecture quality.
 Design systems so they:
@@ -571,14 +690,278 @@ Even if concurrency is not required today, such design usually produces:
 more modular code;
 fewer hidden dependencies;
 more predictable behavior.
-Key Takeaways
-Avoid irreversible decisions when possible.
-Design architecture for change.
-Use tracer implementations to validate ideas early.
-Keep business rules separate from technical details.
-Store changing information in metadata, not code.
-Objects should protect their own invariants.
-Good architecture reduces the cost of future changes.
+
+# Estimation and Project Management
+
+## Estimations Are Models, Not Predictions
+
+An estimate is not a guarantee.
+
+Every estimate is based on a model of the problem and the assumptions behind it.
+
+A good estimate should include:
+
+- what is included;
+- what is excluded;
+- what assumptions were made;
+- what level of uncertainty exists.
+
+---
+
+# Understand the Scope Before Estimating
+
+Before giving an estimate, first understand what exactly needs to be built.
+
+Questions to clarify:
+
+- Is only the backend required?
+- Are tests included?
+- Is documentation required?
+- Are deployment and configuration included?
+- Are external dependencies involved?
+
+Without a clear scope, an estimate has little value.
+
+Example:
+
+> If the task includes only API implementation, the estimate is 2 days.  
+> If it also includes tests, documentation, and deployment, the estimate changes.
+
+The assumptions are part of the estimate.
+
+---
+
+# Do Not Give False Precision
+
+The precision of an estimate should match the level of confidence.
+
+Do not create an illusion of accuracy.
+
+Bad:
+
+The task will take 17 hours and 30 minutes.
+
+---
+#Build a Model of the Problem
+Every estimate is based on a simplified model.
+A model:
+identifies important elements;
+breaks the problem into smaller parts;
+helps understand complexity;
+allows comparison with previous experience.
+A model is always an approximation.
+The goal is to find a balance between simplicity and accuracy. 
+
+---
+
+## Learn From Existing Solutions
+Before creating your own estimation model, look at how similar problems were solved before.
+Previous experience can provide:
+realistic assumptions;
+common risks;
+expected complexity;
+better estimates.
+You do not need an identical project.
+Similar problems often provide valuable information.
+
+---
+
+## Estimates Should Evolve
+Do not try to predict the entire project perfectly at the beginning.
+As the project develops:
+requirements become clearer;
+risks become visible;
+technical decisions are made.
+Therefore, estimates should be updated together with new information.
+A changing estimate is not a failure.
+It is a more accurate reflection of reality. 
+
+---
+
+## What to Say When Asked for an Estimate
+When you do not have enough information:
+"I'll get back to you."
+A professional developer does not guess.
+Take time to:
+understand requirements;
+analyze risks;
+build a model;
+provide a realistic estimate.
+
+---
+
+## Algorithm Complexity and Big O Notation
+The O() Notation
+Big O notation describes how the resource usage of an algorithm grows as the input size increases.
+It describes:
+time complexity;
+memory complexity;
+scalability.
+It does not describe the exact execution time 
+
+---
+
+## Think About Growth, Not Exact Speed
+Do not only write algorithms.
+Learn to estimate how their complexity grows.
+Understanding Big O helps answer questions like:
+Will this solution work with millions of records?
+How will performance change as data grows?
+Is this approach scalable?
+
+---
+
+## Do Not Optimize Too Early
+The algorithm with the best theoretical complexity is not always the best practical choice.
+Consider:
+input size;
+implementation complexity;
+maintenance cost;
+real performance measurements.
+A good approach:
+Create a simple solution.
+Measure performance.
+Identify real bottlenecks.
+Optimize only where necessary. 
+
+---
+
+## Managing Technical Debt
+Technical debt should not exist only in someone's memory.
+Record it.
+A good team:
+documents technical debt;
+tracks future improvements;
+communicates possible risks.
+Refactoring should be a planned process, not random cleanup. 
+
+---
+
+## Refactoring Rules
+Do not refactor and add new functionality at the same time.
+These are separate activities.
+Before refactoring:
+make sure you have good tests;
+run tests frequently;
+verify that behavior has not changed.
+Tests provide confidence during structural changes. 
+
+---
+
+# Tools and Automation
+
+## Automate Repetitive Tasks
+
+Professional developers should control computers through automation, not only through manual interaction.
+
+If a process is repeated regularly, do not rely on memory and discipline.
+
+Turn repeated procedures into:
+
+- scripts;
+- tools;
+- automated workflows.
+
+Automation provides:
+
+- reproducibility;
+- fewer human errors;
+- saved time;
+- consistent results.
+
+---
+
+# Use the Power of Your Tools
+
+A professional developer should know their tools deeply.
+
+Using one well-mastered editor often improves productivity.
+
+The goal is not choosing a specific editor.
+
+The goal is mastering your chosen tool:
+
+- know shortcuts;
+- understand workflows;
+- reduce unnecessary actions;
+- make common operations automatic.
+
+Good tools reduce cognitive load and allow you to focus on solving problems.
+
+---
+
+# Always Use Version Control
+
+Every project should use a version control system.
+
+Version control provides:
+
+- history of changes;
+- collaboration;
+- ability to restore previous versions;
+- safer experimentation.
+
+Git is not only a backup tool.
+
+It is a tool for managing the evolution of software.
+
+---
+
+# Write Code That Writes Code
+
+Developers should not only write application code.
+
+They should also create tools that help them write code faster and more reliably.
+
+Examples:
+
+- code generators;
+- scripts;
+- automation tools;
+- build systems;
+- development utilities.
+
+A small investment in automation can save many hours in the future.
+
+---
+
+# Debugging Is a Normal Part of Development
+
+Bugs are inevitable.
+
+Debugging should not become a search for someone to blame.
+
+The goal is:
+
+- find the cause;
+- fix the problem;
+- prevent it from happening again.
+
+A professional team treats bugs as opportunities to improve the system.
+
+---
+
+# Generate, Don't Maintain
+
+Whenever possible, avoid manually maintaining duplicated information.
+
+Store knowledge in one place and generate everything else.
+
+Example:
+
+Database Schema
+
+        ↓
+
+Generated Types
+
+        ↓
+
+Application Code
+
+---
+
+## 
 
 
 
