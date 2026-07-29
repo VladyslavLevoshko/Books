@@ -192,3 +192,50 @@ Ask:
 - In which situations would it fail?
 
 Good developers understand principles, not just rules.
+
+# DRY Principle and Duplication
+
+## DRY (Don't Repeat Yourself)
+
+One of the most important principles in the Pragmatic Programmer's toolbox is **DRY**.
+
+The main idea:
+
+> Every piece of knowledge should have a single, authoritative representation.
+
+If the same information is stored in multiple places, sooner or later these copies will diverge.
+
+Duplication increases the risk of inconsistency because every change must be applied in multiple places.
+
+---
+
+## Comments Can Violate DRY
+
+Comments are useful, but they can accidentally introduce duplication.
+
+A comment that repeats information already present in the code creates another place where the same knowledge must be maintained.
+
+Example:
+
+```ts
+const MAX_USERS = 100;
+
+Single Source of Truth
+Every important piece of knowledge should have one authoritative source.
+Other parts of the system should depend on this source or be generated automatically.
+Benefits:
+fewer inconsistencies;
+easier maintenance;
+safer changes.
+
+Duplication Is Sometimes Inevitable
+The goal of DRY is not to remove every repeated line of code.
+The real goal is to avoid duplicated knowledge.
+Two similar pieces of code can represent different concepts and may evolve independently.
+Removing such duplication can create unnecessary coupling and complex abstractions.
+
+Key Takeaways
+Avoid duplicated knowledge.
+Do not create abstractions before they are needed.
+Prefer simple solutions over unnecessary flexibility.
+Intentional duplication is acceptable when the risks are understood and documented
