@@ -317,7 +317,9 @@ Utils
  ├── calculateTax()
  └── resizeImage()
 
-Low Coupling
+---
+
+## Low Coupling
 Modules should have minimal dependencies on each other.
 A module should know as little as possible about the internal implementation of other modules.
 Low coupling makes it easier to:
@@ -418,9 +420,6 @@ Design modules around clear responsibilities.
 Use events and interfaces to reduce direct coupling.
 Good architecture makes testing, debugging, and future changes easier.
 
-Продолжаем.
-Файл:
-04-software-architecture.md
 # Software Architecture
 
 ## There Are No Final Decisions
