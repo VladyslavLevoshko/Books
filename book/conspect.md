@@ -464,7 +464,6 @@ Instead of building one part completely and integrating everything later, create
 
 Example:
 
-```text
 User Interface
        |
        ↓
