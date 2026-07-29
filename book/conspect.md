@@ -961,7 +961,812 @@ Application Code
 
 ---
 
-## 
+## Design with Contracts
+Design by Contract
+Objects and functions should define clear expectations.
+A contract consists of:
+Preconditions — what must be true before execution;
+Postconditions — what must be true after execution;
+Invariants — what must always remain true.
 
+---
 
+##Preconditions
+Conditions that must be satisfied before calling a function.
+Example:
+withdraw(amount)
+Precondition:
+Amount must be positive.
 
+---
+##Postconditions
+Conditions guaranteed after successful execution.
+Example:
+After withdrawal, account balance is updated correctly.
+
+---
+
+## Invariants
+Rules that must always remain true.
+Example:
+A bank account balance cannot violate business rules.
+Invariants protect the correctness of the system.
+
+---
+
+##Semantic Invariants
+Some invariants describe not only technical correctness but also the meaning of the system.
+These are called semantic invariants.
+They represent important truths that should remain valid under all circumstances.
+Examples:
+a user cannot own the same resource twice;
+an order cannot be completed without payment;
+a deleted account cannot perform operations.
+Well-defined semantic invariants help guide:
+architecture decisions;
+error handling;
+trade-offs.
+One strong invariant can prevent many incorrect decisions across the system.
+
+---
+
+# Testing and Quality
+
+## Verification and Validation
+
+Testing is not only about checking whether the code works.
+
+There are two different questions:
+
+## Verification
+
+**Verification** answers:
+
+> Are we building the product correctly?
+
+It checks whether the system was implemented according to its specification.
+
+Examples:
+
+- Does the code follow the design?
+- Are requirements implemented correctly?
+- Are algorithms and processes working as expected?
+
+---
+
+## Validation
+
+**Validation** answers:
+
+> Are we building the right product?
+
+It checks whether the system actually solves the user's problem.
+
+Examples:
+
+- Does the application help users achieve their goals?
+- Does the workflow match real user needs?
+- Is the product useful in practice?
+
+A system can be correctly implemented but still solve the wrong problem.
+
+---
+
+# Test Your Tests
+
+## Use Saboteurs to Test Your Testing
+
+Passing tests do not automatically mean that testing is effective.
+
+A good way to verify test quality is to intentionally introduce small mistakes into the code and check whether tests detect them.
+
+Example:
+
+Original code:
+
+function calculatePrice(price: number) {
+    return price * 0.9;
+} 
+
+Introduce a bug:
+function calculatePrice(price: number) {
+    return price * 0.8;
+}
+If tests still pass, the tests are not detecting important errors.
+
+---
+
+##Why Test Quality Matters
+A green test suite only proves that tests passed.
+It does not prove that the tests are capable of finding problems.
+Good tests should:
+detect incorrect behavior;
+protect important rules;
+fail when the system is broken.
+
+---
+
+##Test State Coverage, Not Code Coverage
+Code Coverage
+Code coverage shows what percentage of code was executed during testing.
+However, high code coverage does not guarantee high-quality tests.
+Example:
+A test may execute a line of code but never verify whether the result is correct.
+
+---
+
+##State Coverage
+A better approach is testing different states and transitions of the system.
+Many bugs appear not because a line of code is incorrect, but because the system enters an invalid state.
+Test:
+valid states;
+invalid states;
+transitions between states;
+edge cases;
+error conditions.
+The important question is not:
+"Did this code run?"
+The important question is:
+"Did we verify the important behaviors of the system?"
+
+---
+
+#Test Contracts
+Unit tests should verify not only normal usage but also violations of contracts.
+Tests should check:
+preconditions;
+postconditions;
+invariants.
+Example:
+withdraw(amount)
+Possible tests:
+amount is positive;
+balance is sufficient;
+balance remains valid after withdrawal.
+A module should maintain correct behavior even when receiving incorrect input. 
+
+---
+
+##Make Testing Easy
+Testing should be simple and always available.
+Running tests should be almost as easy as running the application.
+A good development environment provides:
+fast test execution;
+automatic test runs;
+clear error messages;
+easy access for every developer.
+If testing is difficult, people will avoid doing it.
+
+---
+
+##Refactoring Requires Good Tests
+Do not refactor and add new functionality at the same time.
+These activities have different goals:
+Refactoring
+Improves internal structure without changing external behavior.
+Adding Features
+Changes system behavior by introducing new functionality.
+Mixing them makes it harder to understand what caused a problem.
+
+---
+
+##Safe Refactoring Process
+Before refactoring:
+Make sure important behavior is covered by tests.
+Run tests before changes.
+Refactor in small steps.
+Run tests frequently.
+Tests provide confidence that the system still behaves correctly.
+
+---
+
+##Debugging and Quality
+Bugs are a normal part of software development.
+When a bug appears, the goal is not to find someone responsible.
+The goal is:
+understand the cause;
+fix the problem;
+prevent similar problems in the future.
+A good debugging process improves the entire system.
+
+---
+
+# Requirements and Users
+
+## Work with a User to Think Like a User
+
+Developers should understand not only what the system does, but also how users interact with it.
+
+Sometimes the user interface is the entire system from the user's perspective.
+
+A system can have:
+
+- excellent architecture;
+- clean code;
+- reliable infrastructure;
+
+but still fail if the user experience is inconvenient or does not match the real workflow.
+
+---
+
+# Understand the Real Problem
+
+Requirements are not only a list of features.
+
+They should describe:
+
+- what problem the user is trying to solve;
+- what goals they want to achieve;
+- what constraints exist;
+- how the system fits into their workflow.
+
+A good developer tries to understand the user's perspective instead of only implementing instructions.
+
+---
+
+# Use a Project Glossary
+
+Complex projects require a shared vocabulary.
+
+A **project glossary** defines important terms and concepts used by the team.
+
+Benefits:
+
+- fewer misunderstandings;
+- better communication;
+- clearer requirements;
+- consistent terminology across code and documentation.
+
+The names used in the system should reflect the language of the domain.
+
+---
+
+# Find Real Constraints
+
+When solving complex problems, look for real limitations.
+
+Do not automatically accept every assumption as a rule.
+
+Sometimes a problem appears impossible only because it is being solved within false constraints.
+
+Ask:
+
+- Is this limitation technical or just historical?
+- Is there another way to approach the problem?
+- Are we solving the actual problem?
+
+Good engineers challenge assumptions.
+
+---
+
+# Start with a Prototype
+
+If you do not know where to begin, start with a prototype.
+
+A prototype helps:
+
+- explore unknown areas;
+- validate ideas;
+- receive feedback;
+- discover hidden requirements.
+
+A small experiment is often more valuable than a long discussion about a perfect solution.
+
+---
+
+# The Specification Trap
+
+## What Is the Specification Trap?
+
+The specification trap is blindly following a specification without questioning whether it represents the real user need.
+
+A specification can:
+
+- contain incorrect assumptions;
+- describe a specific solution instead of the actual problem;
+- become outdated over time.
+
+A good developer understands the purpose behind requirements, not only their wording.
+
+---
+
+# Requirements Are Models of Reality
+
+Any specification is an interpretation of reality.
+
+There is always a risk that information changes while passing through multiple layers:
+
+```text
+User
+
+ ↓
+
+Analyst
+
+ ↓
+
+Specification
+
+ ↓
+
+Developer
+
+ ↓
+
+Implementation
+
+Each step can introduce misunderstandings.
+The goal is to reduce the distance between the real user problem and the implemented solution.
+
+---
+
+##Prototyping and Feedback
+Sometimes requirements cannot be fully understood in advance.
+Instead of trying to create a perfect specification immediately:
+Build a small prototype.
+Show it to users.
+Collect feedback.
+Improve understanding.
+Adjust the solution.
+Users often cannot accurately imagine a future system from documents alone.
+A working example provides much better feedback.
+
+---
+
+##Models Are Not Reality
+A model is only a simplified representation of reality.
+If developers work only with the model, they may implement the analyst's interpretation instead of the user's actual need.
+Always verify assumptions with real feedback.
+
+---
+
+##User Interaction Is Part of the System
+The system is not only its internal implementation.
+The user's interaction with the system is also part of the product.
+Consider:
+usability;
+workflow;
+clarity;
+speed;
+reliability.
+A technically correct system can still fail if it does not fit the user's needs.
+
+# Teams and Communication
+
+## Communication Is a Technical Skill
+
+Software development is not only about writing code.
+
+A large part of engineering is communication:
+
+- understanding requirements;
+- explaining decisions;
+- sharing knowledge;
+- discussing problems;
+- giving and receiving feedback.
+
+Poor communication creates misunderstandings, duplicated work, and unnecessary complexity.
+
+---
+
+# Listen to People
+
+One of the most important techniques for effective communication is simple:
+
+> Listen to people.
+
+Before trying to convince others, understand their perspective.
+
+Good communication requires:
+
+- asking questions;
+- paying attention;
+- understanding different viewpoints;
+- respecting other people's experience.
+
+---
+
+# Communicate Without Fear
+
+Developers should communicate openly without fear of appearing inexperienced.
+
+Asking questions is not a weakness.
+
+A question asked early can prevent:
+
+- incorrect assumptions;
+- wasted development time;
+- wrong architectural decisions.
+
+A strong engineering culture allows people to say:
+
+- "I do not understand this."
+- "I need more information."
+- "I see a possible problem."
+
+---
+
+# Share Knowledge
+
+A team should create a shared knowledge base.
+
+Useful knowledge should not remain only in one person's memory.
+
+Examples:
+
+- solutions to common problems;
+- architectural decisions;
+- debugging experiences;
+- project conventions;
+- technical explanations.
+
+Shared knowledge makes teams more resilient.
+
+---
+
+# Read Other People's Code
+
+Reading existing code is one of the best ways to improve as a developer.
+
+It helps you learn:
+
+- different approaches;
+- design patterns;
+- trade-offs;
+- common mistakes.
+
+Your own experience is limited, but studying other solutions expands your engineering perspective.
+
+---
+
+# Respond to Communication
+
+Professional communication includes reliability.
+
+Always respond to messages and requests, even if the answer is not immediate.
+
+A simple response:
+
+> "I received this. I will get back to you later."
+
+is better than silence.
+
+Reliable communication builds trust.
+
+---
+
+# Keep Communication Organized
+
+Organize important information:
+
+- emails;
+- documents;
+- technical notes;
+- decisions.
+
+Good organization reduces the time spent searching for information.
+
+---
+
+# Organize Teams Around Capabilities
+
+Teams are often more effective when organized around system capabilities instead of professional roles.
+
+Example:
+
+Less effective:
+
+Frontend Team
+Backend Team
+Database Team
+Testing Team
+More effective:
+Payments Team
+
+Authentication Team
+
+User Management Team
+A capability-focused team contains different skills needed to deliver a complete part of the system.
+
+---
+
+##Benefits of Functional Teams
+Functional teams provide similar benefits to encapsulation in code.
+A team responsible for one area of the product:
+has clearer ownership;
+understands its domain better;
+reduces communication overhead;
+can make decisions faster.
+Changes are more likely to remain inside one area instead of affecting the entire organization.
+
+---
+
+##Team Structure and Software Structure
+The way teams communicate often influences the architecture they create.
+If teams are separated by technical layers, the system may naturally become tightly coupled.
+If teams are organized around independent capabilities, the architecture is more likely to become modular.
+Good organizational structure supports good software design.
+
+---
+
+##Avoid Hero Culture
+A system should not depend on one person who knows everything.
+If only one developer understands an important part of the project, it creates a risk.
+Share knowledge through:
+documentation;
+code reviews;
+discussions;
+mentoring.
+A strong team is built around shared understanding, not individual heroes.
+
+---
+
+# Code Quality and Professional Development
+
+## Code Is Written for People
+
+Code is not only executed by computers.
+
+Most of the time, code is read, modified, and maintained by other developers.
+
+Readable code reduces the cost of understanding and changing the system.
+
+Good code should be:
+
+- clear;
+- simple;
+- consistent;
+- easy to modify.
+
+---
+
+# Code and Documentation Should Be Readable
+
+Code and documentation are created for people.
+
+They should be written with the same care as any other form of communication.
+
+Quality includes:
+
+- meaningful names;
+- clear structure;
+- consistent style;
+- understandable explanations.
+
+The goal is not to make code look impressive.
+
+The goal is to make future changes easier.
+
+---
+
+# Professional Responsibility
+
+Your code is your responsibility.
+
+A developer's work is not only about completing tasks.
+
+It is also about ensuring that the result is:
+
+- understandable;
+- maintainable;
+- reliable.
+
+Your code should represent your professional standards.
+
+---
+
+# Sign Your Work
+
+A professional developer takes ownership of their work.
+
+A signature in code represents responsibility:
+
+> "I created this, and I stand behind its quality."
+
+This does not mean that mistakes never happen.
+
+It means that you care about the result and continuously improve your work.
+
+---
+
+# Simplicity Matters
+
+Simple solutions are usually easier to:
+
+- understand;
+- test;
+- modify;
+- debug.
+
+Complexity should be introduced only when it provides real value.
+
+Avoid adding unnecessary layers, abstractions, or patterns without a clear reason.
+
+---
+
+# Do Not Let Existing Code Dictate Future Code
+
+Existing code is not always the correct model for future development.
+
+Legacy decisions may have been made because of:
+
+- old requirements;
+- previous limitations;
+- missing knowledge;
+- temporary solutions.
+
+Respect existing systems, but do not allow them to prevent better designs.
+
+---
+
+# Separate Views from Models
+
+A system should separate different responsibilities.
+
+The presentation layer should not contain business logic.
+
+The model should represent the data and rules of the system.
+
+The view should represent how information is presented.
+
+Benefits:
+
+- easier testing;
+- easier changes;
+- better separation of concerns.
+
+---
+
+# Blackboard Pattern
+
+The **Blackboard pattern** is an architectural approach where multiple independent components work through a shared data area.
+
+Instead of components directly depending on each other:
+
+Component A
+      |
+      ↓
+  Blackboard
+      ↑
+      |
+Component B 
+
+Components contribute information and react to changes in the shared workspace. 
+
+---
+
+##Benefits of the Blackboard Pattern
+This approach is useful for complex systems where:
+multiple solutions are possible;
+different components analyze the same information;
+knowledge is built gradually.
+Examples:
+artificial intelligence systems;
+image recognition;
+complex decision systems.
+
+---
+
+##Use the Right Level of Abstraction
+Good abstractions hide unnecessary details while exposing important concepts.
+A bad abstraction:
+hides useful information;
+creates confusion;
+makes simple tasks harder.
+A good abstraction:
+represents the real concept;
+reduces complexity;
+remains understandable.
+
+---
+
+#Avoid Overengineering
+Not every problem requires a complex architecture.
+Before introducing:
+patterns;
+frameworks;
+abstractions;
+additional layers;
+ask:
+Is there a real problem?
+Does this complexity provide value?
+Will this make future changes easier?
+The best design is not the most complicated one.
+It is the simplest design that solves the problem well. 
+
+---
+
+# Advanced Design Principles
+
+## Separation of Concerns
+
+A system should be divided into separate parts where each part has its own responsibility.
+
+Each component should focus on one specific concern instead of handling unrelated tasks.
+
+Examples of concerns:
+
+- business logic;
+- data storage;
+- user interface;
+- authentication;
+- logging.
+
+Benefits:
+
+- easier understanding;
+- easier testing;
+- easier modification;
+- reduced complexity.
+
+---
+
+# MVC as a General Design Pattern
+
+**Model-View-Controller (MVC)** is often associated with graphical user interfaces, but the idea is much broader.
+
+MVC is a way to separate responsibilities.
+
+---
+
+## Model
+
+The model represents the actual data and business rules of the system.
+
+The model:
+
+- contains application logic;
+- represents the state of the system;
+- does not depend on how data is displayed.
+
+---
+
+## View
+
+The view is an interpretation of the model.
+
+It represents information in a way suitable for the user or another system.
+
+The view should not contain business rules.
+
+---
+
+## Controller
+
+The controller coordinates interactions.
+
+It receives input, performs actions, and connects the model with the view.
+
+The controller should coordinate, not contain the entire business logic.
+
+---
+
+# MVC Outside User Interfaces
+
+MVC is not limited to graphical applications.
+
+The same idea can be applied to many systems:
+
+- command-line applications;
+- APIs;
+- background services;
+- data processing systems.
+
+The main idea is separation between:
+
+- data and rules;
+- presentation;
+- coordination.
+
+---
+
+# Prefer Communication Through Abstractions
+
+Components should communicate through stable interfaces instead of depending on implementation details.
+
+Bad:
+
+Service A
+    |
+    ↓
+Internal details of Service B 
