@@ -217,7 +217,6 @@ A comment that repeats information already present in the code creates another p
 
 Example:
 
-```ts
 const MAX_USERS = 100;
 
 ---
