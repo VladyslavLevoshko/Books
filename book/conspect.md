@@ -239,3 +239,180 @@ Avoid duplicated knowledge.
 Do not create abstractions before they are needed.
 Prefer simple solutions over unnecessary flexibility.
 Intentional duplication is acceptable when the risks are understood and documented
+
+# Orthogonality and Modularity
+
+## Orthogonality
+
+Orthogonality is a design principle where components of a system are independent from each other.
+
+Changing one part of the system should not unexpectedly affect unrelated parts.
+
+A system with high dependency between components becomes fragile:
+
+> When components of any system are highly interdependent, there is no such thing as a local fix.
+
+Every change can have unexpected consequences.
+
+---
+
+## Benefits of Orthogonal Design
+
+An orthogonal system provides:
+
+- lower risk of changes;
+- easier testing;
+- better maintainability;
+- improved productivity;
+- easier debugging.
+
+When a change is isolated to one component, developers can reason about the system more effectively.
+
+---
+
+## Local Changes Should Stay Local
+
+A well-designed system allows developers to make changes without understanding the entire codebase.
+
+If modifying one feature requires changing many unrelated components, the architecture has strong coupling.
+
+The goal:
+
+> A change should affect the smallest possible part of the system.
+
+---
+
+# High Cohesion and Low Coupling
+
+Two important characteristics of good modular design are:
+
+## High Cohesion
+
+A module should focus on one logically related responsibility.
+
+A module with high cohesion:
+
+- has a clear purpose;
+- contains related functionality;
+- is easier to understand and modify.
+
+Example:
+
+Good:
+
+```text
+UserService
+ ├── createUser()
+ ├── updateUser()
+ └── deleteUser()
+
+Bad:
+
+Utils
+ ├── createUser()
+ ├── sendEmail()
+ ├── calculateTax()
+ └── resizeImage()
+
+Low Coupling
+Modules should have minimal dependencies on each other.
+A module should know as little as possible about the internal implementation of other modules.
+Low coupling makes it easier to:
+replace components;
+test modules independently;
+modify implementation details.
+Orthogonality and Teams
+Orthogonal architecture also improves teamwork.
+When responsibilities are clearly separated, teams can work on different parts of the system with fewer conflicts.
+Organizing teams around independent system components provides similar benefits to encapsulation in code:
+changes are limited to one area;
+ownership is clearer;
+responsibilities are easier to manage.
+Orthogonality and Testing
+Orthogonal systems are easier to test because components have limited interactions.
+A module should be testable independently.
+If testing one component requires connecting a large part of the system, it may indicate:
+poor separation of responsibilities;
+excessive coupling;
+weak architecture.
+The same principle applies to debugging:
+The fewer components affected by a change, the easier it is to find and fix problems.
+Orthogonality Beyond Code
+Orthogonality should also apply to documentation and processes.
+For example:
+changing documentation style should not require changing its content;
+changing deployment details should not require rewriting business logic.
+Independent parts should remain independent.
+Avoid Global State
+Global objects often create hidden dependencies.
+They make it harder to understand:
+who changes the data;
+when the data changes;
+which parts of the system depend on it.
+Prefer explicit dependencies and controlled communication.
+Aspect-Oriented Programming (AOP)
+Aspect-Oriented Programming is a technique for separating cross-cutting concerns from the main business logic.
+Cross-cutting concerns are behaviors that appear in many parts of a system:
+logging;
+security;
+authentication;
+monitoring;
+transaction management.
+Instead of repeating the same logic everywhere, AOP allows these behaviors to be defined separately and automatically applied where needed.
+Example:
+Without AOP:
+
+function createUser() {
+    log();
+    checkPermission();
+    saveUser();
+}
+
+The same logging and security code may appear in many places.
+With AOP:
+
+Business Logic
+       +
+Cross-cutting Concerns
+
+The main code remains focused on its responsibility.
+
+Communication Between Modules
+Avoid unnecessary direct dependencies between modules.
+Instead of modules calling each other directly, they can communicate through:
+events;
+messages;
+interfaces.
+Example:
+Direct coupling:
+OrderService → EmailService
+Event-based communication:
+OrderService
+      |
+      ↓
+ OrderCreated Event
+      |
+      ↓
+EmailService
+This allows components to evolve independently.
+Object Encapsulation
+When an object needs to change its state, ask the object to perform the operation itself.
+Prefer:
+account.withdraw(amount);
+instead of:
+account.balance -= amount;
+The object should control its own rules and invariants.
+Benefits:
+less dependency on implementation details;
+easier future changes;
+better encapsulation.
+Key Takeaways
+Keep components independent.
+Prefer high cohesion and low coupling.
+Local changes should remain local.
+Avoid hidden dependencies and global state.
+Design modules around clear responsibilities.
+Use events and interfaces to reduce direct coupling.
+Good architecture makes testing, debugging, and future changes easier.
+
+
