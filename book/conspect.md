@@ -415,4 +415,169 @@ Design modules around clear responsibilities.
 Use events and interfaces to reduce direct coupling.
 Good architecture makes testing, debugging, and future changes easier.
 
+Продолжаем.
+Файл:
+04-software-architecture.md
+# Software Architecture
+
+## There Are No Final Decisions
+
+Good architecture should allow changes.
+
+Technology choices, platforms, deployment methods, and external dependencies may change over time.
+
+A flexible system should allow these changes without rewriting the entire application.
+
+Avoid making decisions that are difficult to reverse unless there is a strong reason.
+
+---
+
+## Design for Change
+
+The future is uncertain.
+
+Requirements evolve, technologies become outdated, and business rules change.
+
+A good architecture isolates areas that are likely to change.
+
+Examples of things that often change:
+
+- databases;
+- frameworks;
+- external services;
+- deployment environments;
+- user interfaces.
+
+The goal is not to predict the future perfectly, but to make future changes less expensive.
+
+---
+
+# Use Tracer Bullets to Find the Target
+
+## Tracer Code Approach
+
+A **tracer code** approach is creating a minimal working version of a system that goes through all important architectural layers.
+
+Instead of building one part completely and integrating everything later, create a small end-to-end implementation first.
+
+Example:
+
+```text
+User Interface
+       |
+       ↓
+Application Logic
+       |
+       ↓
+Database
+The tracer implementation proves that all parts can communicate correctly.
+Benefits of Tracer Code
+Tracer code helps:
+validate architecture early;
+discover integration problems sooner;
+avoid large integration phases;
+provide a foundation for future development.
+A small working system is easier to improve than a large unfinished system.
+Incremental Development
+New functionality can be added gradually:
+Create a minimal working path.
+Add one feature.
+Write tests.
+Improve the design.
+Repeat.
+Small changes are easier to test and problems are easier to locate.
+Avoid the "big bang" approach where everything is integrated at the end.
+Keep Business Rules Separate from Implementation Details
+Code should express business concepts, not technical details.
+The system should speak the language of the problem domain.
+Bad:
+database.updateUserRecord(id, data);
+Better:
+customer.changeAddress(newAddress);
+The second example describes a business action instead of a technical operation.
+Domain-Specific Languages (DSL)
+A Domain-Specific Language (DSL) is a language designed for a specific problem domain.
+Unlike general-purpose languages:
+TypeScript;
+Java;
+Python;
+a DSL uses concepts and terminology from a specific area.
+Examples:
+SQL for databases;
+regular expressions for text patterns;
+configuration languages.
+A good DSL allows developers and domain experts to communicate using the same concepts.
+Put Abstractions in Code, Details in Metadata
+Do not hard-code information that is likely to change.
+Changing data should be stored separately from the program logic.
+Bad:
+if (user.role === "admin") {
+    allowAccess();
+}
+when roles constantly change.
+Better:
+Configuration / Metadata
+        |
+        ↓
+Application Logic
+Benefits:
+easier changes;
+less code modification;
+better flexibility.
+Cooperative Configuration
+Cooperative Configuration is an approach where system components can configure themselves and adapt to changing conditions.
+Instead of hard-coding every possible behavior, components use external configuration and metadata.
+This allows systems to evolve without modifying core logic.
+Avoid Fragile Object Design
+Objects should be designed as if they can be called at any moment and in any order.
+A fragile design requires a strict sequence:
+create()
+   ↓
+initialize()
+   ↓
+prepare()
+   ↓
+show()
+   ↓
+use()
+If an object only works after a specific sequence of calls, it is difficult to understand and maintain.
+Constructors Should Create Valid Objects
+A constructor should create a complete and usable object.
+Avoid separating creation and initialization.
+Bad:
+const user = new User();
+user.initialize();
+The object exists in an incomplete state.
+Better:
+const user = new User(name, email);
+The object should not allow invalid states.
+Maintain Invariants
+An invariant is a condition that should always remain true.
+After every public method call, the object should still satisfy its invariants.
+Example:
+A bank account:
+Balance cannot be negative
+Every operation must preserve this rule.
+Good objects protect their own correctness.
+Always Design for Concurrency
+Concurrency is not only a source of complexity.
+It is also a test of architecture quality.
+Design systems so they:
+do not depend on hidden execution order;
+avoid unnecessary shared state;
+minimize temporal dependencies.
+Even if concurrency is not required today, such design usually produces:
+more modular code;
+fewer hidden dependencies;
+more predictable behavior.
+Key Takeaways
+Avoid irreversible decisions when possible.
+Design architecture for change.
+Use tracer implementations to validate ideas early.
+Keep business rules separate from technical details.
+Store changing information in metadata, not code.
+Objects should protect their own invariants.
+Good architecture reduces the cost of future changes.
+
+
 
