@@ -220,7 +220,9 @@ Example:
 ```ts
 const MAX_USERS = 100;
 
-Single Source of Truth
+---
+
+## Single Source of Truth
 Every important piece of knowledge should have one authoritative source.
 Other parts of the system should depend on this source or be generated automatically.
 Benefits:
