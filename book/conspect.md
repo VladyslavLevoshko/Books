@@ -1,3 +1,29 @@
+# Software Engineering Notes
+
+Personal notes about software engineering principles, architecture, testing, and professional development.
+
+Based on:
+- The Pragmatic Programmer
+- Software architecture principles
+- Modern development practices
+
+## Contents
+
+1. Pragmatic Programming Philosophy
+2. DRY and Duplication
+3. Orthogonality and Modularity
+4. Software Architecture
+5. Estimation and Project Management
+6. Tools and Automation
+7. Testing and Quality
+8. Requirements and Users
+9. Teams and Communication
+10. Code Quality
+11. Advanced Design Principles
+12. Final Principles
+
+---
+
 # Pragmatic Programming Philosophy
 
 ## Think About Your Work
@@ -1769,4 +1795,351 @@ Bad:
 Service A
     |
     ↓
-Internal details of Service B 
+Internal details of Service B
+
+Better:
+Service A
+    |
+    ↓
+Interface
+    |
+    ↓
+Service B
+Benefits:
+easier replacement of components;
+simpler testing;
+reduced coupling.
+
+---
+
+##Events Over Direct Calls
+Direct calls create strong dependencies.
+Example:
+OrderService → EmailService
+The order service knows that email must be sent.
+A more flexible approach:
+OrderService
+
+      |
+      ↓
+
+OrderCreated Event
+
+      |
+      ↓
+
+EmailService
+The order service only announces what happened.
+Other components can react independently.
+
+---
+
+##Benefits of Event-Based Design
+Events provide:
+lower coupling;
+easier extension;
+independent components;
+better scalability.
+New functionality can be added by subscribing to existing events without modifying existing code.
+
+---
+
+##Design for Replaceability
+A good architecture allows components to be replaced.
+Examples:
+changing a database;
+replacing an external API;
+changing a framework;
+modifying the user interface.
+The business logic should not depend on specific technical details.
+
+---
+
+##Dependency Direction
+High-level business rules should not depend directly on low-level implementation details.
+Instead:
+High-Level Policy
+
+        ↓
+
+Abstraction
+
+        ↓
+
+Low-Level Details
+The details should depend on the abstractions.
+This allows technology choices to change without affecting the core system.
+
+---
+
+##Encapsulation and Boundaries
+Good boundaries protect the internal complexity of a component.
+A component should expose:
+what it can do;
+what other components need to know.
+It should hide:
+internal algorithms;
+implementation details;
+unnecessary state.
+Strong boundaries make systems easier to evolve.
+
+---
+
+##Architecture Should Support Learning
+Good architecture makes the system easier for new developers to understand.
+A developer joining the project should be able to answer:
+Where does business logic live?
+How do components communicate?
+Where should a new feature be added?
+Which parts can be changed safely?
+Clear architecture reduces the cost of onboarding.
+
+---
+
+# Final Software Engineering Principles
+
+## The Goal of Good Software
+
+The goal of software engineering is not only to make code work.
+
+A good system should be:
+
+- understandable;
+- maintainable;
+- reliable;
+- adaptable;
+- easy to change.
+
+The best design is not the one with the most patterns or the most abstraction.
+
+The best design is the simplest solution that solves the real problem and remains flexible for future changes.
+
+---
+
+# Core Principles
+
+## DRY (Don't Repeat Yourself)
+
+Avoid duplicating knowledge.
+
+Every important piece of information should have a single source of truth.
+
+Remember:
+
+> Duplication of code is not always a problem. Duplication of knowledge is.
+
+---
+
+## KISS (Keep It Simple, Stupid)
+
+Prefer simple solutions.
+
+Complexity should be introduced only when it provides real value.
+
+Simple systems are easier to:
+
+- understand;
+- test;
+- modify;
+- maintain.
+
+---
+
+## YAGNI (You Aren't Gonna Need It)
+
+Do not build functionality before it is required.
+
+Avoid creating abstractions, features, or flexibility based only on possible future needs.
+
+Real requirements should guide design decisions.
+
+---
+
+## SOLID Principles
+
+### Single Responsibility Principle
+
+A component should have one reason to change.
+
+---
+
+### Open/Closed Principle
+
+Software entities should be open for extension but closed for modification.
+
+Add new behavior without breaking existing code.
+
+---
+
+### Liskov Substitution Principle
+
+Objects should be replaceable by their subtypes without changing the correctness of the system.
+
+---
+
+### Interface Segregation Principle
+
+Clients should not depend on interfaces they do not use.
+
+Prefer small, focused interfaces.
+
+---
+
+### Dependency Inversion Principle
+
+High-level modules should not depend directly on low-level details.
+
+Both should depend on abstractions.
+
+---
+
+# High Cohesion and Low Coupling
+
+Good modules:
+
+- focus on one responsibility;
+- have clear boundaries;
+- minimize dependencies.
+
+High cohesion improves understanding.
+
+Low coupling reduces the impact of changes.
+
+---
+
+# Single Source of Truth
+
+Store important knowledge in one place.
+
+Everything else should:
+
+- depend on it;
+- be generated from it;
+- stay synchronized automatically.
+
+---
+
+# Design by Contract
+
+Define clear expectations between components.
+
+Use:
+
+- preconditions;
+- postconditions;
+- invariants.
+
+Contracts protect the correctness of the system.
+
+---
+
+# Separation of Concerns
+
+Different responsibilities should be separated.
+
+Examples:
+
+- business logic;
+- presentation;
+- storage;
+- infrastructure.
+
+Clear separation makes systems easier to evolve.
+
+---
+
+# Automation
+
+If a process is repeated, automate it.
+
+Do not rely only on human memory and discipline.
+
+Automation creates:
+
+- consistency;
+- speed;
+- reliability.
+
+---
+
+# Continuous Learning
+
+A professional developer continuously improves.
+
+Invest in:
+
+- technical knowledge;
+- communication skills;
+- understanding of systems;
+- learning new tools.
+
+Knowledge should be treated as a long-term investment.
+
+---
+
+# Ownership and Responsibility
+
+Developers should take responsibility for their work.
+
+This means:
+
+- understanding the impact of changes;
+- writing maintainable code;
+- improving problems instead of ignoring them;
+- sharing knowledge.
+
+Professionalism is not about never making mistakes.
+
+It is about learning from them and improving the system.
+
+---
+
+# Final Checklist
+
+Before considering a solution complete, ask:
+
+## Design
+
+- Is the responsibility clearly defined?
+- Is the solution simpler than necessary?
+- Are dependencies controlled?
+- Can parts be changed independently?
+
+## Code
+
+- Is knowledge duplicated?
+- Are names clear?
+- Does the code express the business domain?
+- Are invalid states prevented?
+
+## Testing
+
+- Are important behaviors tested?
+- Are contracts and invariants protected?
+- Can tests detect real problems?
+
+## Requirements
+
+- Do we understand the real user problem?
+- Are assumptions clear?
+- Did we validate our solution?
+
+## Team
+
+- Is knowledge shared?
+- Are decisions documented?
+- Can another developer understand the system?
+
+---
+
+# Final Thoughts
+
+Software development is a continuous process of learning, improving, and making better decisions.
+
+Great developers do not only write code.
+
+They build systems that can survive change.
+
+The most valuable skill is not knowing a specific technology.
+
+It is the ability to understand problems, design solutions, communicate ideas, and continuously improve.
