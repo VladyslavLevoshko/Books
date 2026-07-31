@@ -1,1 +1,1 @@
-# Books
+To download a book you should change github.com → raw.githubusercontent.com and remove /blob
